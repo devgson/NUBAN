@@ -1,4 +1,4 @@
-## NUBAN Validator
+## NUBAN Code Implementation
 Implementation of NUBAN in Javascript with dummy account Number
 
 ## Introduction
