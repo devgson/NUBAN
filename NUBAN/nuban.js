@@ -3,7 +3,7 @@
 var bankCode = {
     'firstBank' : '011'
 };
-//NUBAN Serial Number(dummy)
+//NUBAN Serial Number(dummy) *Don't do this*
 var serial = prompt('Put in the Account serial number');
 
 //Make sure Serial Number Number is valid and is a string
