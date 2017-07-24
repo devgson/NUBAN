@@ -1,32 +1,33 @@
-//All other bank codes can be added or be imported from an external JSON file
-//TEST bankCode
-var bankCode = {
-    'firstBank' : '011'
-};
-//NUBAN Serial Number(dummy) *Don't do this*
-var serial = prompt('Put in the Account serial number');
-
-//Make sure Serial Number Number is valid and is a string
-if(serial.length !== 9 || typeof serial !== 'string'){
-    throw new Error('Serial Number must be equal to 9 and must be a string')
+//Get bank code and Account/Serial Number
+function Nuban(bankCode,AccountNumber){
+    this.bankCode = bankCode;
+    this.AccountNumber = AccountNumber;
 }
-
-//Function to calculate NUBAN code
-var calculateNuban = (serial) => {
-    serial = (bankCode.firstBank + serial).split('');
+Nuban.prototype.checkNuban = function(){
+    //Make Sure Serial/Account Number is a string
+    if(this.AccountNumber.length !== 9 || typeof this.AccountNumber !== 'string'){
+        throw new Error('Account Number must be equal to 9 and must be a string');
+    }
+    if(this.bankCode.length !== 3 || typeof this.bankCode !== 'string'){
+        throw new Error('Bank Code must be equal to 3 and must be a string');
+    }
     var dictionary = [3,7,3,3,7,3,3,7,3,3,7,3];
+    //Add bankCode and Account Number for calculation from the algorithm
+    var account = (this.bankCode + this.AccountNumber).split("");
     var counter = 0;
-    //Calculate Check Digit
-    serial.forEach(function(currentValue,index){
-        counter += currentValue * dictionary[index];
+    
+    //Calculate Check Digit and store in counter variable
+    account.forEach(function(currentValue,index){
+        counter += (currentValue * dictionary[index]);
     });
-    counter = 10 - (counter%10);
+    //Get the check Digit
+    counter = 10 - (counter % 10);
+    //if Check digit is 10, return 0
     counter = (counter == 10) ? 0 : counter;
-    //Add check Digit onto NUBAN code
-    serial.push(counter);
-    //Remove bankCode from NUBAN code
-    serial.splice(0,3);
-    //Return NUBAN code for dummy account
-    return serial.join('');
+    //Add the check digit to account Number/Serial Number
+    account.push(counter);
+    //Remove bank Code
+    account.splice(0,3);
+    //return Nuban Code for the account
+    return this.NubanCode = account.join("");
 }
-calculateNuban(serial);
